@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom"
-import { Button, Panel } from "rsuite"
+import { useNavigate } from "react-router-dom";
+import { Button, Panel } from "rsuite";
 
-export default function Task({ id }: { id: number }) {
+export default function ProjectInfo({ id }: { id: number }) {
+
   const navigate = useNavigate()
 
   return (
-
     <Panel bordered bodyFill >
 
       <Panel header="Task">
@@ -16,11 +16,10 @@ export default function Task({ id }: { id: number }) {
         </p>
 
       </Panel>
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-2 mr-2">
 
-        <Button appearance="link" onClick={() => navigate("task/12")}>{Math.floor(Math.random() * 10)} Activities</Button>
+        <Button appearance="link" onClick={() => navigate("/projects/12")}>Go</Button>
       </div>
     </Panel>
   )
-
 }

@@ -1,9 +1,12 @@
-import Task from "../components/task.component";
+import Project from "../components/project.component";
 
 export default function ProjectPage() {
-  return <div>
-    {
-      new Array(10).fill(0).map((item, idx) => <Task key={idx} id={idx}></Task>)
-    }
-  </div>
+  return (
+    <div className="flex flex-col gap-3">
+
+      <Project id={1} />
+
+    </div>
+
+  )
 }

@@ -4,6 +4,7 @@ import ErrorPage from "./error-page";
 import ProjectPage from "./pages/project.page";
 import TaskPage from "./pages/task.page";
 import ProjectsPage from "./pages/projects.page";
+import DashboardPage from "./pages/dashboard.page";
 
 export const router = createBrowserRouter([
   {
@@ -12,16 +13,20 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        index: true,
+        element: <DashboardPage />,
+      },
+      {
         path: "/projects",
         element: <ProjectsPage />,
       },
       {
-        path: "/project/:id",
+        path: "/projects/:id",
         element: <ProjectPage />,
       },
 
       {
-        path: "/project/:id/task/:taskId",
+        path: "/projects/:id/task/:taskId",
         element: <TaskPage />,
       },
     ]
