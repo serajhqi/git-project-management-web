@@ -1,5 +1,4 @@
 import './App.css'
-import Task from './components/task.component'
 
 function App() {
 
@@ -7,13 +6,12 @@ function App() {
     <>
       Projects:
       <div className="flex gap-3">
-        <button>Admin Service</button>
-        <button>Price Service</button>
+        <a href='/project/admin-service'>Admin Service</a>
+        <a href='/project/price-service'>Price Service</a>
       </div>
 
-      {
-        new Array(10).fill(0).map((item) => <Task key={item} />)
-      }
+      Some Reports are here from the:
+      Time, number of tasks and activities that each user has
     </>
   )
 }

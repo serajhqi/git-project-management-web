@@ -1,3 +1,3 @@
-export default function Activity() {
-  return <div>Hello from activity</div>
+export default function Activity({ id }: { id: number }) {
+  return <div>Hello from activity {id}</div>
 }
