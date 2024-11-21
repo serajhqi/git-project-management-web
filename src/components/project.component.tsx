@@ -1,12 +1,29 @@
-import { Button, Panel } from "rsuite";
+import { Button, Panel, Progress } from "rsuite";
 import Task from "./task.component";
+import StateItem from "./stat-item.component";
 
 export default function Project({ id }: { id: number }) {
-  return (
-    <Panel bordered bodyFill >
 
-      <Panel header="Project">
-        Project stats of {id}
+
+  const stat = {
+    doneTasks: 233,
+    allTasks: 534
+  }
+  return (
+    <>
+      <Panel bodyFill >
+
+        <Panel header="Project">
+          Project stats of {id}
+          <div>start: 2024-09-01</div>
+        </Panel>
+
+        <div className="flex justify-center items-start gap-5">
+          <StateItem title="tasks" stats={10} />
+          <StateItem title="done tasks" stats={stat.doneTasks} />
+          <StateItem title="activities" stats={stat.allTasks} />
+        </div>
+        <Progress.Line percent={Math.ceil(stat.doneTasks * 100 / stat.allTasks)} strokeColor="blue" />
 
       </Panel>
 
@@ -17,6 +34,6 @@ export default function Project({ id }: { id: number }) {
         }
       </div>
       <Button className="w-full">More...</Button>
-    </Panel>
+    </>
   )
 }
