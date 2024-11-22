@@ -21,12 +21,12 @@ export const router = createBrowserRouter([
         element: <ProjectsPage />,
       },
       {
-        path: "/projects/:id",
+        path: "/projects/:projectId",
         element: <ProjectPage />,
       },
 
       {
-        path: "/projects/:id/task/:taskId",
+        path: "/projects/:projectId/tasks/:taskId",
         element: <TaskPage />,
       },
     ]

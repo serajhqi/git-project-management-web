@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import ProjectInfo from "../components/project-info.component"
+import ProjectListItem from "../components/project-list-item.component"
 import { GetApi } from "../../api/api"
 import type { ProjectDTO } from "../../api/types"
 export default function ProjectsPage() {
@@ -17,7 +17,7 @@ export default function ProjectsPage() {
   }, [])
   return <div className="flex flex-col gap-3">
     {
-      loading ? "Loading..." : projects?.map(item => <ProjectInfo project={item} />)
+      loading ? "Loading..." : projects?.map(project => <ProjectListItem key={project.id} project={project} />)
     }
   </div>
 }

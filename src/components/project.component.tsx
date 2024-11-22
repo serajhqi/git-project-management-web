@@ -1,23 +1,52 @@
 import { Button, Panel, Progress } from "rsuite";
-import Task from "./task.component";
 import StateItem from "./stat-item.component";
+import { useEffect, useState } from "react";
+import { ProjectDTO, TaskDTO } from "../../api/types";
+import { GetApi } from "../../api/api";
+import TaskListItem from "./task-list-item.component";
 
-export default function Project({ id }: { id: number }) {
+export default function Project({ project }: { project?: ProjectDTO }) {
 
+  const [loading, setLoading] = useState(false)
+  const [tasks, setTasks] = useState<TaskDTO[]>()
+
+  function getTasks() {
+    if (!project?.id) return
+    setLoading(true)
+    GetApi().GET("/projects/{project_id}/tasks", {
+      params: {
+        path: {
+          project_id: project?.id
+        }
+      }
+    }).then(({ data }) => setTasks(data as TaskDTO[])).finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    getTasks()
+  }, [])
 
   const stat = {
     doneTasks: 233,
     allTasks: 534
   }
   return (
-    <>
+    loading ? "Loading..." : <>
       <Panel bodyFill >
-
-        <Panel header="Project">
-          Project stats of {id}
-          <div>start: 2024-09-01</div>
+        <div className="flex justify-end">
+          <div className={`text-center text-xs px-2 w-17 flex py-[2px] bg-gray-200`}>{project?.created_at}</div>
+        </div>
+        <Panel header={project?.name}>
+          <div>
+            <div className="flex">
+              <div>
+              </div>
+              <div>
+                {project?.description}
+              </div>
+            </div>
+          </div>
         </Panel>
-
         <div className="flex justify-center items-start gap-5">
           <StateItem title="tasks" stats={10} />
           <StateItem title="done tasks" stats={stat.doneTasks} />
@@ -30,7 +59,7 @@ export default function Project({ id }: { id: number }) {
       <Button className="w-full">Add</Button>
       <div className="grid grid-cols-1 gap-4 p-2">
         {
-          new Array(10).fill(0).map((_, idx) => <Task key={idx} id={idx}></Task>)
+          loading ? "Loading..." : tasks?.map((task, idx) => <TaskListItem key={idx} task={task}></TaskListItem>)
         }
       </div>
       <Button className="w-full">More...</Button>

@@ -1,10 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { Button, Panel, Progress } from "rsuite";
+import { Panel, Progress } from "rsuite";
 import { ProjectDTO } from "../../api/types";
 
-export default function ProjectInfo({ project }: { project: ProjectDTO }) {
-
-  const navigate = useNavigate()
+export default function ProjectListItem({ project }: { project: ProjectDTO }) {
 
   return (
     <div className="flex min-w-[500px]">
@@ -23,8 +20,7 @@ export default function ProjectInfo({ project }: { project: ProjectDTO }) {
           <Progress.Line percent={Math.floor(Math.random() * 100)} strokeColor="blue" />
         </div>
         <div className="flex justify-end mb-2 mr-2">
-
-          <Button appearance="link" onClick={() => navigate("/projects/12")}>Go</Button>
+          <a href={`/projects/${project.id}`}>Go</a>
         </div>
       </Panel>
     </div>

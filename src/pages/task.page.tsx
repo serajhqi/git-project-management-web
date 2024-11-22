@@ -1,79 +1,35 @@
-import { Button, Input, Timeline } from "rsuite";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { TaskDTO } from "../../api/types";
+import { GetApi } from "../../api/api";
+import Task from "../components/task.component";
 
 export default function TaskPage() {
+
+  const [loading, setLoading] = useState(false)
+  const [task, setTask] = useState<TaskDTO>()
+  const { taskId } = useParams()
+
+  function getTask() {
+    if (!taskId || !taskId) return
+    setLoading(true)
+    GetApi().GET("/tasks/{id}", {
+      params: {
+        path: {
+          id: Number.parseInt(taskId)
+        }
+      }
+    }).then(({ data }) => setTask(data as TaskDTO)).finally(() => setLoading(false))
+
+  }
+
+  useEffect(() => getTask(), [])
+
   return (
-    <div className="flex flex-col gap-5 p-4 items-center justify-center">
-      <AlignTimeline />
+    <div className="flex flex-col gap-5 p-4 ">
+      {
+        loading ? "Loading..." : <Task task={task} />
+      }
     </div>
   )
 }
-
-const AlignTimeline = () => (
-  <Timeline align="alternate" isItemActive={Timeline.ACTIVE_FIRST}>
-    <Timeline.Item>
-      <div className="flex flex-col gap-2">
-        <Input placeholder="Activity" />
-      </div>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-01</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-02</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-10</p>
-      <p>Arrival</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-12</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-15</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-01</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-02</p>
-      <p>Order out of stock</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-10</p>
-      <p>Your order starts processingYour order starts processingYour order starts processingYour order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-12</p>
-      <p>Order out of the library</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-15</p>
-      <p>Sending you a piece</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-01</p>
-      <p>Your order starts processing</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-02</p>
-      <p>Order out of stock</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-10</p>
-      <p>Arrival</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-12</p>
-      <p>Order out of the library</p>
-    </Timeline.Item>
-    <Timeline.Item>
-      <p>2018-03-15</p>
-      <p>Sending you a piece</p>
-    </Timeline.Item>
-  </Timeline>
-);

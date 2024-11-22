@@ -4,6 +4,23 @@
  */
 
 export interface paths {
+    "/activities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** one activity */
+        get: operations["get-one-activity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/projects": {
         parameters: {
             query?: never;
@@ -13,6 +30,23 @@ export interface paths {
         };
         /** all projects */
         get: operations["get-all-projects"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/projects/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** one project */
+        get: operations["get-one-project"];
         put?: never;
         post?: never;
         delete?: never;
@@ -38,15 +72,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/projects/{project_id}/tasks/{task_id}": {
+    "/tasks/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** all activities */
-        get: operations["get-all-activities"];
+        /** get one task */
+        get: operations["get-one-task"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tasks/{id}/activities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** get all task activities */
+        get: operations["get-all-task-activities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tasks/{task_id}/activities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
         put?: never;
         /** add activity */
         post: operations["add-activity"];
@@ -60,12 +127,21 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        ActivityDto: {
-            created_at: components["schemas"]["Ticker"];
+        ActivityDTO: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             */
+            readonly $schema?: string;
+            /** Format: date-time */
+            created_at: string;
             /** Format: int64 */
             created_by: number;
             description: string;
-            duration: string;
+            /** Format: int64 */
+            duration: number | null;
+            /** Format: int64 */
+            id: number;
             /** Format: int64 */
             task_id: number;
             title: string;
@@ -125,6 +201,11 @@ export interface components {
             id: number;
         };
         ProjectDTO: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             */
+            readonly $schema?: string;
             /** Format: date-time */
             created_at: string;
             /** Format: int64 */
@@ -139,6 +220,11 @@ export interface components {
             start_date: string;
         };
         TaskDTO: {
+            /**
+             * Format: uri
+             * @description A URL to the JSON Schema for this object.
+             */
+            readonly $schema?: string;
             /** Format: int64 */
             assignee_id: number;
             /** Format: date-time */
@@ -158,7 +244,6 @@ export interface components {
             status: string;
             title: string;
         };
-        Ticker: Record<string, never>;
     };
     responses: never;
     parameters: never;
@@ -168,6 +253,37 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    "get-one-activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActivityDTO"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
     "get-all-projects": {
         parameters: {
             query?: {
@@ -187,6 +303,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProjectDTO"][] | null;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "get-one-project": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectDTO"];
                 };
             };
             /** @description Error */
@@ -234,15 +381,12 @@ export interface operations {
             };
         };
     };
-    "get-all-activities": {
+    "get-one-task": {
         parameters: {
-            query?: {
-                limit?: number;
-                offset?: number;
-            };
+            query?: never;
             header?: never;
             path: {
-                task_id: number;
+                id: number;
             };
             cookie?: never;
         };
@@ -254,7 +398,41 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ActivityDto"][] | null;
+                    "application/json": components["schemas"]["TaskDTO"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ErrorModel"];
+                };
+            };
+        };
+    };
+    "get-all-task-activities": {
+        parameters: {
+            query?: {
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActivityDTO"][] | null;
                 };
             };
             /** @description Error */
