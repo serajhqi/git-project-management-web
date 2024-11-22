@@ -31,7 +31,7 @@ export default function Project({ project }: { project?: ProjectDTO }) {
     allTasks: 534
   }
   return (
-    loading ? "Loading..." : <>
+    loading ? "Loading..." : <div className="min-w-[700px]">
       <Panel bodyFill >
         <div className="flex justify-end">
           <div className={`text-center text-xs px-2 w-17 flex py-[2px] bg-gray-200`}>{project?.created_at}</div>
@@ -63,6 +63,6 @@ export default function Project({ project }: { project?: ProjectDTO }) {
         }
       </div>
       <Button className="w-full">More...</Button>
-    </>
+    </div>
   )
 }
