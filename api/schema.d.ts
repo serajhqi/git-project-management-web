@@ -138,7 +138,7 @@ export interface components {
             /** Format: date-time */
             start_date: string;
         };
-        TaskDto: {
+        TaskDTO: {
             /** Format: int64 */
             assignee_id: number;
             /** Format: date-time */
@@ -220,7 +220,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["TaskDto"][] | null;
+                    "application/json": components["schemas"]["TaskDTO"][] | null;
                 };
             };
             /** @description Error */

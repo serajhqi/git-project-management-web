@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import ProjectInfo from "../components/project-info.component"
 import { GetApi } from "../../api/api"
-import type { Project } from "../../api/types"
+import type { ProjectDTO } from "../../api/types"
 export default function ProjectsPage() {
 
-  const [projects, setProjects] = useState<Project[]>()
+  const [projects, setProjects] = useState<ProjectDTO[]>()
   const [loading, setLoading] = useState(false)
 
   function getProjects() {
     setLoading(true)
-    GetApi().GET("/projects").then(({ data }) => setProjects(data as Project[])).finally(() => setLoading(false))
+    GetApi().GET("/projects").then(({ data }) => setProjects(data as ProjectDTO[])).finally(() => setLoading(false))
   }
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function ProjectsPage() {
   }, [])
   return <div className="flex flex-col gap-3">
     {
-      projects?.map(item => <ProjectInfo project={item} />)
+      loading ? "Loading..." : projects?.map(item => <ProjectInfo project={item} />)
     }
   </div>
 }

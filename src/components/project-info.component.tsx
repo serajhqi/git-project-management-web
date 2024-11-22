@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Panel, Progress } from "rsuite";
-import { Project } from "../../api/types";
+import { ProjectDTO } from "../../api/types";
 
-export default function ProjectInfo({ project }: { project: Project }) {
+export default function ProjectInfo({ project }: { project: ProjectDTO }) {
 
   const navigate = useNavigate()
 
